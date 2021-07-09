@@ -1,6 +1,9 @@
 package com.azharul.mvvmdaggerrxroom;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -26,17 +29,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-     /*   MainActivityViewModel mainActivityViewModel = new MainActivityViewModel();
-        String myRandomNumber = mainActivityViewModel.getMyRandomNumber();
-        tv_result.setText(myRandomNumber);*/
-        MainActivityViewModel mainActivityViewModel=new ViewModelProvider(this).get(MainActivityViewModel.class);
-        String myRandomNumber=mainActivityViewModel.getMyRandomNumber();
-        tv_result.setText(myRandomNumber);
+        MainActivityViewModel mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        LiveData<String> myRandomNumber = mainActivityViewModel.getMyRandomNumber();
+        myRandomNumber.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                tv_result.setText(s);
+                Log.d(TAG, "onChanged: Random number set ");
+            }
+        });
+
     }
 
     @OnClick(R.id.btn_create_number)
     public void createRandomNumber(View view) {
-
+        MainActivityViewModel mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        mainActivityViewModel.createNumber();
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.azharul.mvvmdaggerrxroom;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.Random;
@@ -9,18 +11,21 @@ import java.util.Random;
 public class MainActivityViewModel extends ViewModel {
 
     private static final String TAG = "MainActivityViewModel";
-    private String myRandomNumber;
+    private MutableLiveData<String> myRandomNumber;
 
-    public String getMyRandomNumber(){
+    public MutableLiveData<String> getMyRandomNumber(){
+        Log.d(TAG, "getMyRandomNumber: ");
         if (myRandomNumber == null) {
+            myRandomNumber=new MutableLiveData<>();
             createNumber();
         }
         return myRandomNumber;
     }
 
-    private void createNumber() {
+    public void createNumber() {
         Random random=new Random();
-        myRandomNumber="Number: "+(random.nextInt(10-1)+1);
+        myRandomNumber.postValue("Number: "+(random.nextInt(100-1)+1));
+        Log.d(TAG, "createNumber: ");
     }
 
     @Override
