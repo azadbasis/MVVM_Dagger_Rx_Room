@@ -18,9 +18,9 @@ public class MainActivityViewModel extends ViewModel {
         return myRandomNumber;
     }
 
-    private void createNumber() {
+    public void createNumber() {
         Random random=new Random();
-        myRandomNumber="Number: "+(random.nextInt(10-1)+1);
+        myRandomNumber="Number: "+(random.nextInt(100-1)+1);
     }
 
     @Override
